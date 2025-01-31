@@ -1,4 +1,11 @@
-FROM anapsix/alpine-java 
-LABEL maintainer="shanem@liatrio.com" 
-COPY /target/spring-petclinic-1.5.1.jar /home/spring-petclinic-1.5.1.jar 
-CMD ["java","-jar","/home/spring-petclinic-1.5.1.jar"]
+# Pull base image
+FROM debian:latest
+# Dockerfile Maintainer
+MAINTAINER Jan Wagner "waja@cyconet.org"
+# Install nginx and adjust nginx config to stay in foreground
+RUN apt-get update && apt-get install --no-install-recommends -y nginx; \
+ echo "daemon off;" >> /etc/nginx/nginx.conf
+# Expose HTTP
+EXPOSE 80
+# Start nginx
+CMD ["/usr/sbin/nginx"]
